@@ -99,15 +99,17 @@ export default function Header() {
                 <Heart />
               </button>
 
-              <button
-                aria-label="Cart"
-                className="hover:text-green-600 transition relative"
-              >
-                <ShoppingCart />
-                <span className="absolute -top-2 -right-2 bg-orange-500 text-white text-[10px] w-5 h-5 rounded-full flex items-center justify-center">
-                  0
-                </span>
-              </button>
+              <Link
+  href="/cart"
+  aria-label="Cart"
+  className="hover:text-green-600 transition relative"
+>
+  <ShoppingCart />
+
+  <span className="absolute -top-2 -right-2 bg-orange-500 text-white text-[10px] w-5 h-5 rounded-full flex items-center justify-center">
+    0
+  </span>
+</Link>
 
               <Link
   href="/login"
