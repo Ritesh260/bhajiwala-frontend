@@ -45,8 +45,8 @@ export default function Header() {
             : "bg-[#F8FAF5]"
         }`}
       >
-        <div className="max-w-7xl mx-auto px-6 lg:px-10">
-          <div className="flex items-center justify-between h-20 gap-6">
+        <div className="w-full px-4 lg:px-6">
+          <div className="flex items-center justify-between h-20 gap-10">
             {/* Logo — flex-shrink-0 so it never gets squeezed */}
             <Link
               href="/"
