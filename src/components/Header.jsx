@@ -120,14 +120,27 @@ export default function Header() {
 </Link>
             </div>
 
-            {/* Mobile toggle */}
-            <button
-              onClick={() => setMenuOpen(!menuOpen)}
-              className="lg:hidden shrink-0"
-              aria-label="Toggle menu"
-            >
-              {menuOpen ? <X size={30} /> : <Menu size={30} />}
-            </button>
+            {/* Mobile actions: cart first, then menu */}
+            <div className="flex items-center gap-3 lg:hidden shrink-0">
+              <Link
+                href="/cart"
+                aria-label="Cart"
+                className="relative text-gray-700 hover:text-green-600 transition"
+              >
+                <ShoppingCart size={24} />
+                <span className="absolute -top-2 -right-2 bg-orange-500 text-white text-[10px] w-5 h-5 rounded-full flex items-center justify-center">
+                  0
+                </span>
+              </Link>
+
+              <button
+                onClick={() => setMenuOpen(!menuOpen)}
+                className="shrink-0"
+                aria-label="Toggle menu"
+              >
+                {menuOpen ? <X size={30} /> : <Menu size={30} />}
+              </button>
+            </div>
           </div>
         </div>
       </header>

@@ -10,7 +10,7 @@ const contactData = [
   {
     id: 1,
     title: "Call Us",
-    description: "+91 98765 43210",
+    description: "+91 9839621748",
     subText: "Talk with our support team",
     icon: PhoneCall,
   },

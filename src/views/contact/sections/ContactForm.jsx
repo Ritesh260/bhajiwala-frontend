@@ -76,7 +76,7 @@ export default function ContactForm() {
                   </p>
 
                   <h4 className="font-bold text-gray-900">
-                    +91 98765 43210
+                    +91 9839621748
                   </h4>
 
                 </div>

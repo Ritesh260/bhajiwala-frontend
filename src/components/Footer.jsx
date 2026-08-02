@@ -119,7 +119,7 @@ export default function Footer() {
                 <Phone className="text-green-500" size={20} />
 
                 <p>
-                  +91 98765 43210
+                  +91 9839621748
                 </p>
 
               </div>

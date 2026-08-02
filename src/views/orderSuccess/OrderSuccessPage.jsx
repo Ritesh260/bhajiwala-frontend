@@ -27,7 +27,7 @@ export default function OrderSuccessPage() {
         {/* Heading */}
 
         <h1 className="mt-8 text-4xl lg:text-5xl font-bold text-gray-900">
-          Order Confirmed 🎉
+          Order Confirmed 
         </h1>
 
         <p className="mt-4 text-gray-600 leading-8">

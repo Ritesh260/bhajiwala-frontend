@@ -47,7 +47,7 @@ export default function DeliveryInfo() {
             size={20}
           />
 
-          <span>+91 98765 43210</span>
+          <span>+91 9839621748</span>
 
         </div>
 
