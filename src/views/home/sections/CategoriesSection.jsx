@@ -5,32 +5,32 @@ const categories = [
   {
     id: 1,
     name: "Leafy",
-    image: "/images/categories/leafy.png",
+    image: "/images/hero/leafy.png",
   },
   {
     id: 2,
     name: "Root",
-    image: "/images/categories/root.png",
+    image: "/images/home/root.png",
   },
   {
     id: 3,
     name: "Fruits",
-    image: "/images/categories/fruits.png",
+    image: "/images/home/fruits.png",
   },
   {
     id: 4,
     name: "Organic",
-    image: "/images/categories/organic.png",
+    image: "/images/home/organic.png",
   },
   {
     id: 5,
     name: "Seasonal",
-    image: "/images/categories/seasonal.png",
+    image: "/images/home/seasonal.png",
   },
   {
     id: 6,
     name: "Herbs",
-    image: "/images/categories/herbs.png",
+    image: "/images/home/herbs.png",
   },
 ];
 

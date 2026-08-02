@@ -7,7 +7,7 @@ const products = [
     name: "Fresh Tomato",
     price: 40,
     oldPrice: 55,
-    image: "/images/products/tomato.png",
+    image: "/images/home/products/tomato.png",
     unit: "1 Kg",
   },
   {
@@ -15,7 +15,7 @@ const products = [
     name: "Potato",
     price: 30,
     oldPrice: 40,
-    image: "/images/products/potato.png",
+    image: "/images/home/products/potato.png",
     unit: "1 Kg",
   },
   {
@@ -23,7 +23,7 @@ const products = [
     name: "Onion",
     price: 35,
     oldPrice: 45,
-    image: "/images/products/onion.png",
+    image: "/images/home/products/onion.png",
     unit: "1 Kg",
   },
   {
@@ -31,7 +31,7 @@ const products = [
     name: "Capsicum",
     price: 60,
     oldPrice: 75,
-    image: "/images/products/capsicum.png",
+    image: "/images/home/products/capsicum.png",
     unit: "500 g",
   },
 ];
@@ -93,7 +93,7 @@ export default function FeaturedProducts() {
                 <img
                   src={item.image}
                   alt={item.name}
-                  className="w-36 h-36 object-contain group-hover:scale-110 transition duration-300"
+                  className="w-100 h-100 object-contain group-hover:scale-110 transition duration-300"
                 />
 
               </div>

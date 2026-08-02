@@ -1,2 +1,29 @@
 @import "tailwindcss";
 
+html,
+body {
+  overflow-x: hidden;
+}
+@keyframes delivery {
+  0% {
+    transform: translateX(20px);
+  }
+
+  100% {
+    transform: translateX(calc(100vw - 320px));
+  }
+}
+@keyframes loading {
+  0% {
+    width: 0%;
+  }
+
+  100% {
+    width: 100%;
+  }
+}
+
+.animate-loading {
+  width: 0%;
+  animation: loading 2.2s ease-in-out infinite;
+}

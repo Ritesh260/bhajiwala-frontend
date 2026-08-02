@@ -4,134 +4,73 @@ import { ChevronRight, ShoppingBasket, Leaf } from "lucide-react";
 
 export default function HeroSection() {
   return (
-    <section className="relative overflow-hidden bg-linear-to-br from-green-700 via-green-600 to-green-500 pt-24 pb-16 sm:pt-28 sm:pb-20">
-
-      {/* Background Blur */}
-      <div className="absolute -top-32 -left-20 w-96 h-96 rounded-full bg-white/10 blur-3xl"></div>
-
-      <div className="absolute bottom-0 right-0 w-105 h-105 rounded-full bg-white/10 blur-3xl"></div>
+    <section className="relative overflow-hidden bg-[#F8FAF5] pt-24 pb-16 sm:pt-28 sm:pb-20">
+      <div className="absolute top-0 right-0 w-[450px] h-[450px] bg-green-100 rounded-full blur-3xl opacity-70"></div>
+      <div className="absolute bottom-0 left-0 w-[350px] h-[350px] bg-emerald-100 rounded-full blur-3xl opacity-70"></div>
 
       <div className="relative max-w-7xl mx-auto px-6">
-
-        {/* Breadcrumb */}
-
-        <div className="flex flex-wrap items-center gap-2 text-green-100 mb-8">
-
-          <Link
-            href="/"
-            className="hover:text-white transition"
-          >
+        <div className="flex flex-wrap items-center gap-2 text-gray-500 mb-8">
+          <Link href="/" className="hover:text-green-700 transition">
             Home
           </Link>
 
           <ChevronRight size={16} />
 
-          <span className="text-white font-medium">
-            Products
-          </span>
-
+          <span className="text-gray-700 font-medium">Products</span>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-
-          {/* Left */}
-
           <div>
-
-            <span className="inline-flex items-center gap-2 bg-white/15 backdrop-blur-md text-white px-5 py-2 rounded-full">
-
+            <span className="inline-flex items-center gap-2 bg-white text-green-700 px-5 py-2 rounded-full font-semibold shadow-sm border border-green-100">
               <Leaf size={18} />
-
               100% Farm Fresh Vegetables
-
             </span>
 
-            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold text-white leading-tight mt-8">
-
+            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold text-gray-900 leading-tight mt-8">
               Fresh Vegetables
-
-              <span className="block text-green-200">
-                Delivered Daily
-              </span>
-
+              <span className="block text-green-600">Delivered Daily</span>
             </h1>
 
-            <p className="text-green-100 text-lg leading-8 mt-6 max-w-xl">
-
+            <p className="text-gray-600 text-lg leading-8 mt-6 max-w-xl">
               Discover fresh vegetables, seasonal fruits and daily essentials
               sourced directly from trusted farmers with affordable prices and
               quick doorstep delivery.
-
             </p>
 
             <div className="flex flex-col sm:flex-row flex-wrap gap-4 mt-10">
-
               <Link
                 href="/categories"
-                className="w-full sm:w-auto bg-white text-green-700 px-8 py-4 rounded-full font-semibold hover:bg-green-50 transition text-center"
+                className="w-full sm:w-auto bg-green-600 text-white px-8 py-4 rounded-full font-semibold hover:bg-green-700 transition text-center shadow-sm"
               >
                 Browse Categories
               </Link>
 
               <Link
                 href="/offers"
-                className="w-full sm:w-auto border border-white text-white px-8 py-4 rounded-full font-semibold hover:bg-white hover:text-green-700 transition text-center"
+                className="w-full sm:w-auto border-2 border-green-600 text-green-700 px-8 py-4 rounded-full font-semibold hover:bg-green-600 hover:text-white transition text-center"
               >
                 View Offers
               </Link>
-
             </div>
 
-            {/* Stats */}
-
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-14">
-
-              <div>
-
-                <h3 className="text-3xl font-bold text-white">
-                  500+
-                </h3>
-
-                <p className="text-green-100">
-                  Happy Customers
-                </p>
-
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-14">
+              <div className="rounded-2xl bg-white p-4 shadow-sm border border-gray-100">
+                <h3 className="text-2xl font-bold text-gray-900">500+</h3>
+                <p className="text-sm text-gray-500 mt-1">Happy Customers</p>
               </div>
-
-              <div>
-
-                <h3 className="text-3xl font-bold text-white">
-                  100+
-                </h3>
-
-                <p className="text-green-100">
-                  Fresh Products
-                </p>
-
+              <div className="rounded-2xl bg-white p-4 shadow-sm border border-gray-100">
+                <h3 className="text-2xl font-bold text-gray-900">100+</h3>
+                <p className="text-sm text-gray-500 mt-1">Fresh Products</p>
               </div>
-
-              <div>
-
-                <h3 className="text-3xl font-bold text-white">
-                  24/7
-                </h3>
-
-                <p className="text-green-100">
-                  Support
-                </p>
-
+              <div className="rounded-2xl bg-white p-4 shadow-sm border border-gray-100">
+                <h3 className="text-2xl font-bold text-gray-900">24/7</h3>
+                <p className="text-sm text-gray-500 mt-1">Support</p>
               </div>
-
             </div>
-
           </div>
 
-          {/* Right */}
-
           <div className="relative flex justify-center">
-
-            <div className="relative w-full max-w-[420px] aspect-square rounded-full bg-white/10 backdrop-blur-xl border border-white/20 flex items-center justify-center">
-
+            <div className="relative w-full max-w-[420px] aspect-square rounded-full bg-white shadow-[0_20px_60px_-20px_rgba(0,0,0,0.15)] border border-green-100 flex items-center justify-center p-6">
               <Image
                 src="/images/hero/basket.png"
                 alt="Fresh Vegetables"
@@ -140,43 +79,21 @@ export default function HeroSection() {
                 priority
                 className="object-contain drop-shadow-2xl"
               />
-
             </div>
 
-            {/* Floating Cards */}
-
-            <div className="hidden lg:absolute top-6 left-0 bg-white rounded-3xl shadow-xl p-5">
-
+            <div className="hidden lg:absolute top-6 left-0 bg-white rounded-3xl shadow-xl p-5 border border-gray-100">
               <ShoppingBasket className="text-green-600 mb-2" />
-
-              <h4 className="font-bold text-gray-900">
-                Fresh Stock
-              </h4>
-
-              <p className="text-sm text-gray-500">
-                Arrives Every Morning
-              </p>
-
+              <h4 className="font-bold text-gray-900">Fresh Stock</h4>
+              <p className="text-sm text-gray-500">Arrives Every Morning</p>
             </div>
 
-            <div className="hidden lg:absolute bottom-8 right-0 bg-white rounded-3xl shadow-xl px-6 py-5">
-
-              <h3 className="text-4xl font-bold text-green-600">
-                100%
-              </h3>
-
-              <p className="text-gray-500">
-                Organic Quality
-              </p>
-
+            <div className="hidden lg:absolute bottom-8 right-0 bg-white rounded-3xl shadow-xl px-6 py-5 border border-gray-100">
+              <h3 className="text-4xl font-bold text-green-600">100%</h3>
+              <p className="text-gray-500">Organic Quality</p>
             </div>
-
           </div>
-
         </div>
-
       </div>
-
     </section>
   );
 }
