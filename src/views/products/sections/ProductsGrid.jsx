@@ -13,6 +13,7 @@ export default function ProductsGrid() {
     const fetchProducts = async () => {
       try {
         setLoading(true);
+        setError("");
 
         const data = await getProducts();
 
@@ -37,19 +38,11 @@ export default function ProductsGrid() {
   }
 
   if (error) {
-    return (
-      <div className="text-red-500">
-        {error}
-      </div>
-    );
+    return <div className="text-red-500">{error}</div>;
   }
 
   if (!products.length) {
-    return (
-      <div className="text-gray-500">
-        No products found.
-      </div>
-    );
+    return <div className="text-gray-500">No products found.</div>;
   }
 
   return (
