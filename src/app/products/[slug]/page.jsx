@@ -1,93 +1,104 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
-import { getProducts } from "@/api/product_apis";
+import { useParams } from "next/navigation";
+import Image from "next/image";
+import { getProductBySlug } from "@/api/product_apis";
 
-export default function ProductDetailsPage({ params }) {
+export default function ProductDetailPage() {
+  const params = useParams();
+  const slug = params?.slug;
+
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
+    if (!slug) return;
+
     const fetchProduct = async () => {
       try {
-        const data = await getProducts();
+        setLoading(true);
 
-        const foundProduct = data?.products?.find(
-          (item) => item.slug === params.slug
-        );
+        const data = await getProductBySlug(slug);
 
-        setProduct(foundProduct || null);
+        setProduct(data.product);
       } catch (error) {
-        console.error("Product fetch error:", error);
+        console.error("Product detail error:", error);
+
+        setError(
+          error?.response?.data?.message ||
+            "Failed to load product"
+        );
       } finally {
         setLoading(false);
       }
     };
 
     fetchProduct();
-  }, [params.slug]);
+  }, [slug]);
 
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        Loading product...
+        <p className="text-gray-500">
+          Loading product...
+        </p>
       </div>
     );
   }
 
-  if (!product) {
+  if (error || !product) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center gap-4">
-        <h1 className="text-2xl font-bold">
-          Product not found
-        </h1>
-
-        <Link
-          href="/products"
-          className="bg-green-600 text-white px-5 py-3 rounded-xl"
-        >
-          Back to Products
-        </Link>
+      <div className="min-h-screen flex items-center justify-center">
+        <p className="text-red-500">
+          {error || "Product not found"}
+        </p>
       </div>
     );
   }
 
-  const image = product.images?.[0];
+  const productImage =
+    product.images?.find(
+      (image) =>
+        typeof image === "string" &&
+        image.trim() !== ""
+    ) || null;
+
+  const price =
+    product.discountPrice > 0
+      ? product.discountPrice
+      : product.price;
 
   return (
     <main className="min-h-screen bg-[#F8FAF5] py-16">
-
       <div className="max-w-7xl mx-auto px-6">
 
-        <Link
-          href="/products"
-          className="text-green-600 font-medium"
-        >
-          ← Back to Products
-        </Link>
-
-        <div className="grid md:grid-cols-2 gap-12 mt-10">
+        <div className="grid lg:grid-cols-2 gap-12 bg-white rounded-3xl p-8 shadow-sm">
 
           {/* IMAGE */}
 
-          <div className="bg-white rounded-3xl p-10 flex items-center justify-center">
+          <div className="min-h-[500px] bg-[#F8FAF5] rounded-3xl flex items-center justify-center">
 
-            {image ? (
-              <img
-                src={image}
+            {productImage ? (
+              <Image
+                src={productImage}
                 alt={product.name}
-                className="w-full max-w-md h-96 object-contain"
+                width={500}
+                height={500}
+                className="object-contain"
               />
             ) : (
-              <p>No Image</p>
+              <p className="text-gray-500">
+                No Image
+              </p>
             )}
 
           </div>
 
-          {/* DETAILS */}
+          {/* CONTENT */}
 
-          <div>
+          <div className="flex flex-col justify-center">
 
             <p className="text-green-600 font-semibold">
               {product.category?.name}
@@ -97,45 +108,51 @@ export default function ProductDetailsPage({ params }) {
               {product.name}
             </h1>
 
-            <p className="text-gray-600 mt-4">
+            <p className="text-gray-600 mt-5">
               {product.shortDescription}
             </p>
 
             <div className="mt-6">
 
-              <span className="text-4xl font-bold">
-                ₹
-                {product.discountPrice > 0
-                  ? product.discountPrice
-                  : product.price}
+              <span className="text-4xl font-bold text-gray-900">
+                ₹{price}
               </span>
 
-              <p className="text-gray-500 mt-2">
-                {product.unitValue} {product.unit}
-              </p>
+              <span className="text-gray-500 ml-2">
+                / {product.unitValue} {product.unit}
+              </span>
 
             </div>
+
+            {product.discountPrice > 0 && (
+              <p className="text-gray-400 line-through mt-2">
+                ₹{product.price}
+              </p>
+            )}
 
             {/* VARIANTS */}
 
             {product.variants?.length > 0 && (
               <div className="mt-8">
 
-                <h3 className="font-bold mb-3">
+                <h3 className="font-bold text-lg">
                   Available Quantities
                 </h3>
 
-                <div className="flex flex-wrap gap-3">
+                <div className="flex flex-wrap gap-3 mt-4">
 
                   {product.variants.map((variant) => (
-                    <div
+                    <button
                       key={variant._id}
+                      type="button"
                       className="border border-green-200 bg-green-50 text-green-700 px-4 py-3 rounded-xl"
                     >
                       {variant.unitValue} {variant.unit}
-                      {" · "}
-                      ₹{variant.price}
-                    </div>
+                      <br />
+                      <span className="font-bold">
+                        ₹{variant.price}
+                      </span>
+                    </button>
                   ))}
 
                 </div>
@@ -143,24 +160,25 @@ export default function ProductDetailsPage({ params }) {
               </div>
             )}
 
-            {/* DESCRIPTION */}
+            {/* STOCK */}
 
-            {product.description && (
-              <div className="mt-8">
+            <p className="mt-6 text-sm">
+              {product.stock > 0 ? (
+                <span className="text-green-600 font-semibold">
+                  In Stock
+                </span>
+              ) : (
+                <span className="text-red-500 font-semibold">
+                  Out of Stock
+                </span>
+              )}
+            </p>
 
-                <h3 className="text-xl font-bold">
-                  Description
-                </h3>
-
-                <p className="text-gray-600 mt-3 leading-7">
-                  {product.description}
-                </p>
-
-              </div>
-            )}
+            {/* CART */}
 
             <button
-              className="mt-8 w-full md:w-auto bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-2xl font-semibold"
+              type="button"
+              className="mt-8 w-full bg-green-600 hover:bg-green-700 text-white py-4 rounded-2xl font-semibold text-lg transition"
             >
               Add to Cart
             </button>
@@ -169,8 +187,21 @@ export default function ProductDetailsPage({ params }) {
 
         </div>
 
-      </div>
+        {/* DESCRIPTION */}
 
+        {product.description && (
+          <div className="mt-10 bg-white rounded-3xl p-8">
+            <h2 className="text-2xl font-bold">
+              About {product.name}
+            </h2>
+
+            <p className="text-gray-600 mt-4 leading-7">
+              {product.description}
+            </p>
+          </div>
+        )}
+
+      </div>
     </main>
   );
 }
