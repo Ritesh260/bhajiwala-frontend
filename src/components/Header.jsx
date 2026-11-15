@@ -1,21 +1,25 @@
+
 "use client";
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
+
 import {
-  Menu,
-  X,
   Search,
   Heart,
   ShoppingCart,
   User,
   MapPin,
   Leaf,
+  Home,
+  LayoutGrid,
+  Tag,
 } from "lucide-react";
 
 export default function Header() {
-  const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -24,7 +28,9 @@ export default function Header() {
 
     window.addEventListener("scroll", handleScroll);
 
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
   const navLinks = [
@@ -36,18 +42,59 @@ export default function Header() {
     { name: "Contact", path: "/contact" },
   ];
 
+  const mobileLinks = [
+    {
+      name: "Home",
+      path: "/",
+      icon: Home,
+    },
+    {
+      name: "Category",
+      path: "/category",
+      icon: LayoutGrid,
+    },
+    {
+      name: "Offers",
+      path: "/offers",
+      icon: Tag,
+    },
+    {
+      name: "Cart",
+      path: "/cart",
+      icon: ShoppingCart,
+    },
+    {
+      name: "Account",
+      path: "/login",
+      icon: User,
+    },
+  ];
+
+  const isActive = (path) => {
+    if (path === "/") return pathname === "/";
+    if (path === "/login") {
+      return pathname === "/login" || pathname.startsWith("/profile");
+    }
+
+    return pathname === path || pathname.startsWith(path + "/");
+  };
+
   return (
     <>
+      {/* ================= HEADER ================= */}
+
       <header
         className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
           scrolled
-            ? "bg-white/90 backdrop-blur-xl shadow-md"
+            ? "bg-white/95 backdrop-blur-xl shadow-md"
             : "bg-[#F8FAF5]"
         }`}
       >
         <div className="w-full px-4 lg:px-6">
-          <div className="flex items-center justify-between h-20 gap-10">
-            {/* Logo — flex-shrink-0 so it never gets squeezed */}
+          <div className="flex items-center justify-between h-20 gap-6">
+
+            {/* LOGO */}
+
             <Link
               href="/"
               className="flex items-center gap-2 font-bold text-2xl shrink-0"
@@ -62,22 +109,29 @@ export default function Header() {
               </span>
             </Link>
 
-            {/* Desktop Menu — its own space, won't collide with logo */}
+            {/* DESKTOP NAVIGATION */}
+
             <nav className="hidden lg:flex items-center gap-7 shrink-0">
               {navLinks.map((item) => (
                 <Link
                   key={item.name}
                   href={item.path}
-                  className="text-gray-700 font-medium hover:text-green-600 transition whitespace-nowrap"
+                  className={`font-medium transition whitespace-nowrap ${
+                    isActive(item.path)
+                      ? "text-green-600"
+                      : "text-gray-700 hover:text-green-600"
+                  }`}
                 >
                   {item.name}
                 </Link>
               ))}
             </nav>
 
-            {/* Search — flexes to fill remaining space instead of a fixed width fighting everything else */}
+            {/* DESKTOP SEARCH */}
+
             <div className="hidden xl:flex items-center bg-white border rounded-full px-4 py-2 flex-1 max-w-xs shadow-sm">
               <Search className="w-5 h-5 text-gray-500 shrink-0" />
+
               <input
                 type="text"
                 placeholder="Search vegetables..."
@@ -85,9 +139,11 @@ export default function Header() {
               />
             </div>
 
-            {/* Right side — locked to its own group with consistent gaps */}
+            {/* DESKTOP ACTIONS */}
+
             <div className="hidden lg:flex items-center gap-6 shrink-0">
-              <div className="flex items-center gap-1 text-gray-700 whitespace-nowrap">
+
+              <div className="flex items-center gap-1 text-gray-700">
                 <MapPin className="w-5 h-5 text-green-600" />
                 <span className="text-sm">Mumbai</span>
               </div>
@@ -100,80 +156,91 @@ export default function Header() {
               </button>
 
               <Link
-  href="/cart"
-  aria-label="Cart"
-  className="hover:text-green-600 transition relative"
->
-  <ShoppingCart />
-
-  <span className="absolute -top-2 -right-2 bg-orange-500 text-white text-[10px] w-5 h-5 rounded-full flex items-center justify-center">
-    0
-  </span>
-</Link>
-
-              <Link
-  href="/login"
-  className="bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-full flex items-center gap-2 transition whitespace-nowrap"
->
-  <User size={18} />
-  Login
-</Link>
-            </div>
-
-            {/* Mobile actions: cart first, then menu */}
-            <div className="flex items-center gap-3 lg:hidden shrink-0">
-              <Link
                 href="/cart"
                 aria-label="Cart"
-                className="relative text-gray-700 hover:text-green-600 transition"
+                className="hover:text-green-600 transition relative"
               >
-                <ShoppingCart size={24} />
+                <ShoppingCart />
+
                 <span className="absolute -top-2 -right-2 bg-orange-500 text-white text-[10px] w-5 h-5 rounded-full flex items-center justify-center">
                   0
                 </span>
               </Link>
 
-              <button
-                onClick={() => setMenuOpen(!menuOpen)}
-                className="shrink-0"
-                aria-label="Toggle menu"
+              <Link
+                href="/login"
+                className="bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-full flex items-center gap-2 transition"
               >
-                {menuOpen ? <X size={30} /> : <Menu size={30} />}
-              </button>
+                <User size={18} />
+                Login
+              </Link>
             </div>
+
+            {/* MOBILE LOCATION */}
+
+            <div className="lg:hidden flex items-center gap-1 text-gray-600">
+              <MapPin size={17} className="text-green-600" />
+              <span className="text-xs font-medium">Mumbai</span>
+            </div>
+
           </div>
         </div>
       </header>
 
-      {/* Mobile Menu */}
-      <div
-        className={`fixed top-20 left-0 w-full bg-white shadow-xl transition-all duration-300 lg:hidden z-40 ${
-          menuOpen
-            ? "translate-y-0 opacity-100"
-            : "-translate-y-10 opacity-0 pointer-events-none"
-        }`}
-      >
-        <div className="flex flex-col p-6 gap-5">
-          {navLinks.map((item) => (
-            <Link
-              key={item.name}
-              href={item.path}
-              onClick={() => setMenuOpen(false)}
-              className="font-medium text-gray-700 hover:text-green-600"
-            >
-              {item.name}
-            </Link>
-          ))}
+      {/* ================= MOBILE BOTTOM NAVIGATION ================= */}
 
-          <Link
-  href="/login"
-  onClick={() => setMenuOpen(false)}
-  className="bg-green-600 hover:bg-green-700 text-white text-center rounded-xl py-3 mt-2 transition"
->
-  Login
-</Link>
+      <nav className="lg:hidden fixed bottom-0 left-0 w-full z-50 bg-white border-t border-gray-200 shadow-[0_-4px_20px_rgba(0,0,0,0.06)]">
+
+        <div className="grid grid-cols-5 items-center h-[70px] px-2 pb-[env(safe-area-inset-bottom)]">
+
+          {mobileLinks.map((item) => {
+            const Icon = item.icon;
+            const active = isActive(item.path);
+
+            return (
+              <Link
+                key={item.name}
+                href={item.path}
+                aria-label={item.name}
+                aria-current={active ? "page" : undefined}
+                className={`flex flex-col items-center justify-center gap-1 h-full transition-all duration-200 ${
+                  active
+                    ? "text-green-600"
+                    : "text-gray-500 hover:text-green-600"
+                }`}
+              >
+                <div
+                  className={`relative flex items-center justify-center w-12 h-8 rounded-full transition-all ${
+                    active ? "bg-green-50" : ""
+                  }`}
+                >
+                  <Icon
+                    size={22}
+                    strokeWidth={active ? 2.5 : 1.8}
+                  />
+
+                  {/* CART BADGE */}
+
+                  {item.name === "Cart" && (
+                    <span className="absolute -top-1 right-0 bg-orange-500 text-white text-[9px] w-4 h-4 rounded-full flex items-center justify-center">
+                      0
+                    </span>
+                  )}
+                </div>
+
+                <span
+                  className={`text-[10px] ${
+                    active ? "font-bold" : "font-medium"
+                  }`}
+                >
+                  {item.name}
+                </span>
+              </Link>
+            );
+          })}
+
         </div>
-      </div>
+      </nav>
     </>
   );
 }

@@ -1,189 +1,249 @@
-import Image from "next/image";
+
+"use client";
+
+import { useEffect, useState } from "react";
+import Link from "next/link";
+
 import {
   CalendarDays,
   Leaf,
   ArrowRight,
 } from "lucide-react";
-import Link from "next/link";
 
-
-const seasonalOffers = [
-  {
-    id: 1,
-    season: "Monsoon Special",
-    title: "Fresh Green Vegetables",
-    description:
-      "Healthy leafy greens and fresh vegetables perfect for rainy season.",
-    image: "/images/offers/monsoon.png",
-    badge: "Season Fresh",
-  },
-  {
-    id: 2,
-    season: "Summer Picks",
-    title: "Juicy Fruits Collection",
-    description:
-      "Enjoy fresh seasonal fruits selected specially for summer days.",
-    image: "/images/offers/summer.png",
-    badge: "Hot Deal",
-  },
-  {
-    id: 3,
-    season: "Winter Special",
-    title: "Organic Winter Vegetables",
-    description:
-      "Premium quality winter vegetables directly from farmers.",
-    image: "/images/offers/winter.png",
-    badge: "Limited Stock",
-  },
-];
-
+import { getSeasonalOffers } from "@/api/seasonal_apis";
 
 export default function SeasonalOffers() {
+  const [seasonalOffers, setSeasonalOffers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  // =====================================
+  // GET SEASONAL OFFERS API
+  // =====================================
+
+  const fetchSeasonalOffers = async () => {
+    try {
+      setLoading(true);
+      setError("");
+
+      const response = await getSeasonalOffers();
+
+      if (response.success) {
+        const activeOffers = (response.offers || []).filter(
+          (offer) => offer.status === "Active"
+        );
+
+        setSeasonalOffers(activeOffers);
+      } else {
+        setError(
+          response.message || "Unable to fetch seasonal offers"
+        );
+      }
+    } catch (err) {
+      console.error("Seasonal Offers API Error:", err);
+
+      setError(
+        err.response?.data?.message ||
+          "Something went wrong while loading seasonal offers."
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchSeasonalOffers();
+  }, []);
+
+  // =====================================
+  // DATE FORMAT
+  // =====================================
+
+  const formatDate = (date) => {
+    if (!date) return "";
+
+    return new Date(date).toLocaleDateString("en-IN", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    });
+  };
+
+  // =====================================
+  // RENDER
+  // =====================================
 
   return (
+    <section className="bg-[#F8FAF5] py-24">
+      <div className="mx-auto max-w-7xl px-5">
 
-    <section className="py-24 bg-[#F8FAF5]">
+        {/* HEADING */}
 
+        <div className="mb-14 text-center">
 
-      <div className="max-w-7xl mx-auto px-5">
-
-
-        {/* Heading */}
-
-        <div className="text-center mb-14">
-
-
-          <span className="inline-flex items-center gap-2 text-green-600 uppercase tracking-[3px] font-semibold">
-
-            <CalendarDays size={18}/>
-
+          <span className="inline-flex items-center gap-2 font-semibold uppercase tracking-[3px] text-green-600">
+            <CalendarDays size={18} />
             Seasonal Deals
-
           </span>
 
-
-          <h2 className="mt-4 text-4xl lg:text-5xl font-bold text-gray-900">
-
+          <h2 className="mt-4 text-4xl font-bold text-gray-900 lg:text-5xl">
             Fresh According To Season
-
           </h2>
 
-
-          <p className="mt-4 text-gray-600 max-w-2xl mx-auto leading-7">
-
+          <p className="mx-auto mt-4 max-w-2xl leading-7 text-gray-600">
             Enjoy the best seasonal vegetables and fruits at special prices
             available for a limited time.
-
           </p>
-
 
         </div>
 
+        {/* LOADING */}
 
+        {loading && (
+          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+            {[1, 2, 3].map((item) => (
+              <div
+                key={item}
+                className="animate-pulse overflow-hidden rounded-[35px] border border-gray-200 bg-white"
+              >
+                <div className="h-64 bg-gray-200" />
 
-        {/* Cards */}
-
-
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-
-
-          {seasonalOffers.map((item)=>(
-
-
-            <div
-              key={item.id}
-              className="group bg-white rounded-[35px] overflow-hidden border border-gray-200 hover:shadow-2xl transition duration-300"
-            >
-
-
-              {/* Image */}
-
-              <div className="relative h-64 bg-green-100 flex items-center justify-center">
-
-
-                <span className="absolute top-5 left-5 z-10 bg-orange-500 text-white px-4 py-2 rounded-full text-sm font-semibold">
-
-                  {item.badge}
-
-                </span>
-
-
-
-                <Image
-                  src={item.image}
-                  alt={item.title}
-                  width={230}
-                  height={230}
-                  className="group-hover:scale-110 transition duration-500"
-                />
-
-
+                <div className="space-y-4 p-7">
+                  <div className="h-4 w-1/3 rounded bg-gray-200" />
+                  <div className="h-7 w-3/4 rounded bg-gray-200" />
+                  <div className="h-16 rounded bg-gray-200" />
+                  <div className="h-5 w-1/4 rounded bg-gray-200" />
+                </div>
               </div>
+            ))}
+          </div>
+        )}
 
+        {/* ERROR */}
 
+        {!loading && error && (
+          <div className="rounded-2xl bg-red-50 p-8 text-center">
+            <p className="text-red-600">{error}</p>
 
-              {/* Content */}
+            <button
+              onClick={fetchSeasonalOffers}
+              className="mt-4 rounded-lg bg-green-600 px-5 py-2 font-semibold text-white hover:bg-green-700"
+            >
+              Try Again
+            </button>
+          </div>
+        )}
 
-              <div className="p-7">
+        {/* EMPTY STATE */}
 
+        {!loading && !error && seasonalOffers.length === 0 && (
+          <div className="rounded-2xl bg-white p-12 text-center">
+            <CalendarDays
+              size={42}
+              className="mx-auto text-gray-400"
+            />
 
-                <div className="flex items-center gap-2 text-green-600 font-semibold">
+            <h3 className="mt-4 text-xl font-bold text-gray-800">
+              No Seasonal Offers Available
+            </h3>
 
-                  <Leaf size={18}/>
+            <p className="mt-2 text-gray-500">
+              New seasonal deals will be available soon.
+            </p>
+          </div>
+        )}
 
-                  {item.season}
+        {/* SEASONAL OFFER CARDS */}
+
+        {!loading && !error && seasonalOffers.length > 0 && (
+          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+
+            {seasonalOffers.map((item) => (
+
+              <div
+                key={item._id}
+                className="group overflow-hidden rounded-[35px] border border-gray-200 bg-white transition duration-300 hover:shadow-2xl"
+              >
+
+                {/* IMAGE */}
+
+                <div className="relative flex h-64 items-center justify-center bg-green-100">
+
+                  {item.badge && (
+                    <span className="absolute left-5 top-5 z-10 rounded-full bg-orange-500 px-4 py-2 text-sm font-semibold text-white">
+                      {item.badge}
+                    </span>
+                  )}
+
+                  {item.image ? (
+                    <img
+                      src={item.image}
+                      alt={item.title}
+                      className="h-full w-full object-cover transition duration-500 group-hover:scale-110"
+                    />
+                  ) : (
+                    <Leaf size={70} className="text-green-600" />
+                  )}
 
                 </div>
 
+                {/* CONTENT */}
 
+                <div className="p-7">
 
-                <h3 className="text-2xl font-bold text-gray-900 mt-4">
+                  {/* SEASON LABEL */}
 
-                  {item.title}
+                  <div className="flex items-center gap-2 font-semibold text-green-600">
+                    <Leaf size={18} />
+                    Seasonal Special
+                  </div>
 
-                </h3>
+                  {/* TITLE */}
 
+                  <h3 className="mt-4 text-2xl font-bold text-gray-900">
+                    {item.title}
+                  </h3>
 
+                  {/* DESCRIPTION */}
 
-                <p className="text-gray-600 leading-7 mt-3">
+                  <p className="mt-3 leading-7 text-gray-600">
+                    {item.description || "Explore our latest seasonal deals."}
+                  </p>
 
-                  {item.description}
+                  {/* DATES */}
 
-                </p>
+                  {(item.startDate || item.endDate) && (
+                    <div className="mt-4 flex flex-wrap items-center gap-2 text-sm text-gray-500">
+                      <CalendarDays size={16} className="text-green-600" />
 
+                      {item.startDate && formatDate(item.startDate)}
 
+                      {item.startDate && item.endDate && " - "}
 
-                <Link
-                  href="/products"
-                  className="mt-6 inline-flex items-center gap-2 text-green-600 font-semibold hover:text-green-700 transition"
-                >
+                      {item.endDate && formatDate(item.endDate)}
+                    </div>
+                  )}
 
-                  Shop Now
+                  {/* SHOP NOW */}
 
-                  <ArrowRight size={18}/>
+                  <Link
+                    href="/products"
+                    className="mt-6 inline-flex items-center gap-2 font-semibold text-green-600 transition hover:gap-3 hover:text-green-700"
+                  >
+                    Shop Now
+                    <ArrowRight size={18} />
+                  </Link>
 
-                </Link>
-
-
+                </div>
 
               </div>
 
+            ))}
 
-
-            </div>
-
-
-          ))}
-
-
-        </div>
-
+          </div>
+        )}
 
       </div>
-
-
     </section>
-
   );
-
 }
