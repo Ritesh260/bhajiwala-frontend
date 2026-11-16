@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { ArrowRight, ShoppingBag, Star } from "lucide-react";
 
 export default function HeroSection() {
@@ -37,21 +38,22 @@ export default function HeroSection() {
 
             <div className="flex flex-wrap gap-5 mt-10">
 
-              <button className="bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-full font-semibold flex items-center gap-2 transition">
-
+             <Link
+                href="/products"
+                className="bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-full font-semibold flex items-center gap-2 transition"
+              >
                 <ShoppingBag size={20} />
-
                 Shop Now
+              </Link>
 
-              </button>
-
-              <button className="border border-green-600 text-green-700 px-8 py-4 rounded-full font-semibold flex items-center gap-2 hover:bg-green-50 transition">
-
+              {/* Browse Products */}
+              <Link
+                href="/products"
+                className="border border-green-600 text-green-700 px-8 py-4 rounded-full font-semibold flex items-center gap-2 hover:bg-green-50 transition"
+              >
                 Browse Products
-
                 <ArrowRight size={18} />
-
-              </button>
+              </Link>
 
             </div>
 
