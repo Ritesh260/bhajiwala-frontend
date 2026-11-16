@@ -1,3 +1,4 @@
+
 import axios from "axios";
 
 const api = axios.create({
@@ -6,5 +7,27 @@ const api = axios.create({
     "Content-Type": "application/json",
   },
 });
+
+// ==========================================
+// REQUEST INTERCEPTOR
+// Automatically attach customer token
+// ==========================================
+
+api.interceptors.request.use(
+  (config) => {
+    if (typeof window !== "undefined") {
+      const token = localStorage.getItem("userToken");
+
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+    }
+
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
 export default api;
