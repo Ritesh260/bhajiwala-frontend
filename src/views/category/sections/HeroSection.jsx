@@ -76,18 +76,19 @@ export default function HeroSection() {
           </div>
 
           <div className="relative flex justify-center">
-            <div className="relative w-[320px] sm:w-[420px] lg:w-[520px] aspect-square rounded-full bg-white shadow-[0_20px_60px_-20px_rgba(0,0,0,0.15)] border border-green-100 flex items-center justify-center p-6">
-              <Image
-                src="/images/categories/categories-hero.png"
+            <div className="">
+              <Image 
+              className="relative w-[320px] sm:w-[420px] lg:w-[520px] aspect-square rounded-full  flex items-center justify-center p-6"
+                src="/images/category/category.png"
                 alt="Categories"
                 width={420}
                 height={420}
                 priority
-                className="object-contain drop-shadow-2xl"
+                // className="object-contain drop-shadow-2xl"
               />
             </div>
 
-            <div className="absolute top-4 left-0 bg-white rounded-3xl shadow-xl px-5 py-4 hidden sm:block border border-gray-100">
+            {/* <div className="absolute top-4 left-0 bg-white rounded-3xl shadow-xl px-5 py-4 hidden sm:block border border-gray-100">
               <Leaf className="text-green-600 mb-2" />
               <p className="font-bold text-gray-900">Leafy Greens</p>
               <span className="text-sm text-gray-500">Fresh Daily</span>
@@ -101,7 +102,7 @@ export default function HeroSection() {
             <div className="absolute top-16 right-0 bg-white rounded-3xl shadow-xl px-5 py-4 hidden lg:block border border-gray-100">
               <Carrot className="text-orange-500 mb-2" />
               <p className="font-bold text-gray-900">Organic Veggies</p>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

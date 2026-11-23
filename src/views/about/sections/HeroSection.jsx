@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { ChevronRight, Leaf, ShoppingBag } from "lucide-react";
 
 export default function HeroSection() {
@@ -55,14 +56,17 @@ export default function HeroSection() {
           </div>
 
           <div className="relative flex justify-center">
-            <div className="w-full max-w-[420px] aspect-square rounded-full bg-white shadow-[0_20px_60px_-20px_rgba(0,0,0,0.15)] border border-green-100 flex items-center justify-center p-6">
-              <div className="text-center px-6 py-10">
-                <div className="text-6xl sm:text-7xl">🥬🥕🍅🥦</div>
-                <p className="text-gray-800 text-lg sm:text-xl mt-4 font-semibold">
-                  Fresh From Farm
-                </p>
-              </div>
-            </div>
+                      <div className="">
+                        <Image 
+                        className="relative w-[320px] sm:w-[420px] lg:w-[520px] aspect-square rounded-full  flex items-center justify-center p-6"
+                          src="/images/aboutheros.png"
+                          alt="About"
+                          width={420}
+                          height={420}
+                          priority
+                          // className="object-contain drop-shadow-2xl"
+                        />
+                      </div>
 
             <div className="hidden md:block absolute top-10 left-0 bg-white rounded-2xl shadow-xl px-6 py-4 border border-gray-100">
               <p className="text-3xl font-bold text-green-600">500+</p>

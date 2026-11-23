@@ -242,7 +242,7 @@ const fetchCartCount = useCallback(async () => {
 
               <div className="flex items-center gap-2">
 
-                {isAuthenticated && !loading && (
+                {/* {isAuthenticated && !loading && (
                   <button
                     type="button"
                     onClick={handleLogout}
@@ -252,7 +252,7 @@ const fetchCartCount = useCallback(async () => {
                   >
                     <LogOut size={19} />
                   </button>
-                )}
+                )} */}
 
                 <Link
                   href={isAuthenticated ? "/profile" : "/login"}
@@ -423,7 +423,7 @@ const fetchCartCount = useCallback(async () => {
                         </span>
                       </Link>
 
-                      <button
+                      {/* <button
                         type="button"
                         onClick={handleLogout}
                         aria-label="Logout"
@@ -431,7 +431,7 @@ const fetchCartCount = useCallback(async () => {
                         className="text-gray-500 hover:text-red-600 transition"
                       >
                         <LogOut size={20} />
-                      </button>
+                      </button> */}
 
                     </div>
                   ) : (

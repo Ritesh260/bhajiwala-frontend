@@ -116,47 +116,48 @@ export default function ProductCard({ product }) {
   // ADD TO CART
   // ==========================================
 
-  const handleAddToCart = async () => {
-    if (!requireLogin()) return;
+ 
+const handleAddToCart = async () => {
+  if (!requireLogin()) return;
 
-    if (variants.length > 0 && !selectedVariant) {
-      showMessage("Please select a quantity", "error");
-      return;
-    }
+  if (variants.length > 0 && !selectedVariant) {
+    showMessage("Please select a quantity", "error");
+    return;
+  }
 
-    const availableStock = selectedVariant
-      ? selectedVariant.stock
-      : product?.stock;
+  // Shared stock: always use parent product stock
+  const availableStock = Number(product?.stock ?? 0);
 
-    if (availableStock <= 0) {
-      showMessage("Product is out of stock", "error");
-      return;
-    }
+  if (availableStock <= 0) {
+    showMessage("Product is out of stock", "error");
+    return;
+  }
 
-    try {
-      setCartLoading(true);
-      setMessage("");
+  try {
+    setCartLoading(true);
+    setMessage("");
 
-      const response = await addToCart(
-        product._id,
-        1,
-        selectedVariant?._id || null
-      );
+    const response = await addToCart(
+      product._id,
+      1,
+      selectedVariant?._id || null
+    );
 
-      showMessage(
-        response.message || "Added to cart successfully",
-        "success"
-      );
-    } catch (error) {
-      showMessage(
-        error.response?.data?.message ||
-          "Unable to add product to cart",
-        "error"
-      );
-    } finally {
-      setCartLoading(false);
-    }
-  };
+    showMessage(
+      response.message || "Added to cart successfully",
+      "success"
+    );
+  } catch (error) {
+    showMessage(
+      error.response?.data?.message ||
+        "Unable to add product to cart",
+      "error"
+    );
+  } finally {
+    setCartLoading(false);
+  }
+};
+
 
   // ==========================================
   // ADD TO WISHLIST
