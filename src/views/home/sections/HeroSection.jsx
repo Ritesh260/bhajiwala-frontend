@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowRight, ShoppingBag, Star } from "lucide-react";
 
 export default function HeroSection() {
@@ -81,17 +82,18 @@ export default function HeroSection() {
 
           {/* Right */}
 
-          <div className="relative">
-
-            <div className="bg-gradient-to-br from-green-500 to-green-700 rounded-[40px] h-[500px] flex items-center justify-center shadow-2xl">
-
-              <img
-                src="/images/hero/vegetables.png"
-                alt="Fresh Vegetables"
-                className="w-[100%] object-cover"
-              />
-
-            </div>
+          <div className="relative flex justify-center">
+                      <div className="">
+                        <Image 
+                        className="relative w-[320px] sm:w-[420px] lg:w-[520px] aspect-square rounded-full  flex items-center justify-center p-6"
+                          src="/images/hero/hero.png"
+                          alt="About"
+                          width={420}
+                          height={420}
+                          priority
+                          // className="object-contain drop-shadow-2xl"
+                        />
+                      </div>
 
             <div className="absolute top-10 -left-8 bg-white shadow-xl rounded-2xl px-6 py-4">
 

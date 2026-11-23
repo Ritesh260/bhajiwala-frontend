@@ -70,16 +70,17 @@ export default function HeroSection() {
           </div>
 
           <div className="relative flex justify-center">
-            <div className="relative w-full max-w-[420px] aspect-square rounded-full bg-white shadow-[0_20px_60px_-20px_rgba(0,0,0,0.15)] border border-green-100 flex items-center justify-center p-6">
-              <Image
-                src="/images/hero/basket.png"
-                alt="Fresh Vegetables"
-                width={420}
-                height={420}
-                priority
-                className="object-contain drop-shadow-2xl"
-              />
-            </div>
+                                <div className="">
+                                  <Image 
+                                  className="relative w-[320px] sm:w-[420px] lg:w-[520px] aspect-square rounded-full  flex items-center justify-center p-6"
+                                    src="/images/producthero.png"
+                                    alt="About"
+                                    width={420}
+                                    height={420}
+                                    priority
+                                    // className="object-contain drop-shadow-2xl"
+                                  />
+                                </div>
 
             <div className="hidden lg:absolute top-6 left-0 bg-white rounded-3xl shadow-xl p-5 border border-gray-100">
               <ShoppingBasket className="text-green-600 mb-2" />
